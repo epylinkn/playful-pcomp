@@ -10,10 +10,13 @@ Encoder education(10, 11);
 
 String incomeLabels[] = { "lower", "middle", "upper-middle", "upper" };
 char incomeKeys[] = { 'Q', 'W', 'E', 'R' };
+int incomeLights[] = { 0, 3, 6, 9 };
 String raceLabels[] = { "black", "hispanic", "other", "asian", "white" };
 char raceKeys[] = { 'A', 'S', 'D', 'F', 'G' };
+int raceLights[] = { 12, 15, 18, 21, 24 };
 String educationLabels[] = { "less-than-high-school", "high-school", "some-college", "bachelors", "advanced" };
 char educationKeys[] = { 'Z', 'X', 'C', 'V', 'B' };
+int educationLights[] = { 27, 30, 33, 36, 39 };
 
 long oldIncomePosition = -1;
 int incomeSelection = 0;
@@ -37,14 +40,10 @@ int resetLedPin = 3;
 int randomButtonPin = 5;
 int randomLedPin = 4;
 
-//const int dinPin = 2;    // Din pin to Arduino pin 4
-//const int numOfLeds = 48;
+const int dinPin = 0;    // Din pin to Arduino pin 4
+const int numOfLeds = 48;
 
-//Adafruit_NeoPixel pixels = Adafruit_NeoPixel(numOfLeds, dinPin, NEO_GRB + NEO_KHZ800);
-
-int red = 255;    //Value from 0(led-off) to 255().
-int green = 0;
-int blue = 0;
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(numOfLeds, dinPin, NEO_GRB + NEO_KHZ800);
 
 int incomingByte;
 int sceneNumber;
@@ -65,10 +64,14 @@ void setup() {
   resetButton.interval(5);
   randomButton.attach(randomButtonPin);
   randomButton.interval(5);
+
+  pixels.begin(); // Initializes the NeoPixel library
+  pixels.show(); //// Initialize all pixels to 'off'
+  pixels.setBrightness(5); // Value from 0 to 100%
 }
 
 void loop() {
-  //== Check all our encodersASSSSSSSSDDDDDDDDFFFFFFFFGGGGGGGGAAAAAAAASSSS
+  //== Check all our encoders
   checkIncomeEncoder();
   checkRaceEncoder();
   checkEducationEncoder();
@@ -78,12 +81,10 @@ void loop() {
   checkReset();
   checkRandom();
 
-//  lights();
-
-  if (Serial.available() > 0) {   // see if there's incoming serial data
-    incomingByte = Serial.read(); // read it
-    sceneNumber = incomingByte;
-  }
+  //== Lights
+  setIncomePixels(incomeLights[incomeSelection]);
+  setEducationPixels(educationLights[educationSelection]);
+  setRacePixels(raceLights[raceSelection]);
 
   //== global delay
   delay(1);
@@ -112,7 +113,6 @@ void checkIncomeEncoder() {
     incomeSelection = getEncoderSelection(incomePosition, 4);
     oldIncomePosition = incomePosition;
 
-
     Keyboard.write(incomeKeys[incomeSelection]);
     Serial.print("income,");
     Serial.println(incomeLabels[incomeSelection]);
@@ -121,6 +121,7 @@ void checkIncomeEncoder() {
 
 void checkRaceEncoder() {
   long racePosition = race.read();
+
 
   if (racePosition != oldRacePosition) {
     raceSelection = getEncoderSelection(racePosition, 5);
@@ -147,7 +148,6 @@ void checkEducationEncoder() {
 
 void checkReset() {
   resetButton.update();
-
   if (resetButton.fell()) {
     digitalWrite(resetLedPin, HIGH);
     Keyboard.write('I');
@@ -175,5 +175,102 @@ void checkRandom() {
     Keyboard.write('P');
     Serial.print("button,");
     Serial.println("random");
+
+    // NB slot sound is 2.821224 sec
+    for (int x = 1; x < 14; x++) {
+      spinnerIncome();
+      spinnerRace();
+      spinnerEducation();
+      delay(200);
+    }
   }
+}
+
+void spinnerIncome() {
+  int randomSelection = random(4);
+  while (randomSelection == incomeSelection) {
+    randomSelection = random(4);
+  }
+
+  incomeSelection = randomSelection;
+  setIncomePixels(incomeLights[incomeSelection]);
+  Keyboard.write(incomeKeys[incomeSelection]);
+}
+
+void spinnerRace() {
+  int randomSelection = random(5);
+  while (randomSelection == raceSelection) {
+    raceSelection = random(5);
+  }
+
+  raceSelection = randomSelection;
+  setRacePixels(raceLights[raceSelection]);
+  Keyboard.write(raceKeys[raceSelection]);
+}
+
+void spinnerEducation() {
+  int randomSelection = random(5);
+  while (randomSelection == educationSelection) {
+    educationSelection = random(4);
+  }
+
+  educationSelection = randomSelection;
+  setEducationPixels(educationLights[educationSelection]);
+  Keyboard.write(educationKeys[educationSelection]);
+}
+
+void setIncomePixels(int firstLight) {
+  for (int j = 0; j<4; j++) {
+    int firstPixel = incomeLights[j];
+
+    if (firstLight == firstPixel) {
+      pixels.setPixelColor(firstPixel, 255, 0, 255); //set of 3
+      pixels.setPixelColor(firstPixel + 1, 255, 0, 255);
+      pixels.setPixelColor(firstPixel + 2, 255, 0, 255);
+    } else {
+      pixels.setPixelColor(firstPixel, 0, 0, 0);
+      pixels.setPixelColor(firstPixel + 1, 0, 0, 0);
+      pixels.setPixelColor(firstPixel + 2, 0, 0, 0);
+    }
+  }
+
+  pixels.show();
+}
+
+
+void setRacePixels(int firstLight) {
+  for (int j = 0; j<5; j++) {
+    int firstPixel = raceLights[j];
+
+    if (firstLight == firstPixel) {
+      pixels.setPixelColor(firstPixel, 255, 0, 255);
+      pixels.setPixelColor(firstPixel + 1, 255, 0, 255);
+      pixels.setPixelColor(firstPixel + 2, 255, 0, 255);
+    } else {
+      pixels.setPixelColor(firstPixel, 0, 0, 0);
+      pixels.setPixelColor(firstPixel + 1, 0, 0, 0);
+      pixels.setPixelColor(firstPixel + 2, 0, 0, 0);
+    }
+  }
+
+  pixels.show();
+}
+
+
+void setEducationPixels(int firstLight) {
+  for (int j = 0; j<5; j++) {
+    int firstPixel = educationLights[j];
+
+    if (firstLight == firstPixel) {
+      pixels.setPixelColor(firstPixel, 255, 0, 255);
+      pixels.setPixelColor(firstPixel + 1, 255, 0, 255);
+      pixels.setPixelColor(firstPixel + 2, 255, 0, 255);
+    } else {
+      pixels.setPixelColor(firstPixel, 0, 0, 0);
+      pixels.setPixelColor(firstPixel + 1, 0, 0, 0);
+      pixels.setPixelColor(firstPixel + 2, 0, 0, 0);
+    }
+  }
+
+  pixels.show();
 }
