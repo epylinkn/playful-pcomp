@@ -114,8 +114,6 @@ void checkIncomeEncoder() {
     oldIncomePosition = incomePosition;
 
     Keyboard.write(incomeKeys[incomeSelection]);
-    Serial.print("income,");
-    Serial.println(incomeLabels[incomeSelection]);
   }
 }
 
@@ -128,8 +126,6 @@ void checkRaceEncoder() {
     oldRacePosition = racePosition;
 
     Keyboard.write(raceKeys[raceSelection]);
-    Serial.print("race,");
-    Serial.println(raceLabels[raceSelection]);
   }
 }
 
@@ -141,8 +137,6 @@ void checkEducationEncoder() {
     oldEducationPosition = educationPosition;
 
     Keyboard.write(educationKeys[educationSelection]);
-    Serial.print("education,");
-    Serial.println(educationLabels[educationSelection]);
   }
 }
 
@@ -151,8 +145,6 @@ void checkReset() {
   if (resetButton.fell()) {
     digitalWrite(resetLedPin, HIGH);
     Keyboard.write('I');
-    Serial.print("button,");
-    Serial.println("reset");
   }
 }
 
@@ -162,8 +154,6 @@ void checkSearch() {
   if (searchButton.fell()) {
     digitalWrite(searchLedPin, HIGH);
     Keyboard.write('O');
-    Serial.print("button,");
-    Serial.println("search");
   }
 }
 
@@ -173,8 +163,6 @@ void checkRandom() {
   if (randomButton.fell()) {
     digitalWrite(randomLedPin, HIGH);
     Keyboard.write('P');
-    Serial.print("button,");
-    Serial.println("random");
 
     // NB slot sound is 2.821224 sec
     for (int x = 1; x < 14; x++) {
