@@ -45,8 +45,8 @@ const int numOfLeds = 48;
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(numOfLeds, dinPin, NEO_GRB + NEO_KHZ800);
 
-int incomingByte;
-int sceneNumber;
+String sceneName = "Profile";
+String prevSceneName;
 
 void setup() {
   Keyboard.begin();
@@ -68,9 +68,20 @@ void setup() {
   pixels.begin(); // Initializes the NeoPixel library
   pixels.show(); //// Initialize all pixels to 'off'
   pixels.setBrightness(5); // Value from 0 to 100%
+
+  setSceneLighting();
 }
 
 void loop() {
+  //== Check scene change
+  if (Serial.available() > 0) {
+    String incomingString = Serial.readString();
+    Serial.println(incomingString);
+    sceneName = incomingString;
+
+    setSceneLighting();
+  }
+
   //== Check all our encoders
   checkIncomeEncoder();
   checkRaceEncoder();
@@ -82,11 +93,13 @@ void loop() {
   checkRandom();
 
   //== Lights
-  setIncomePixels(incomeLights[incomeSelection]);
-  setEducationPixels(educationLights[educationSelection]);
-  setRacePixels(raceLights[raceSelection]);
+  // allPixelsOff();
+  // setIncomePixels(incomeSelection);
+  // setRacePixels(raceSelection);
+  // setEducationPixels(educationSelection);
+  pixels.show();
 
-  //== global delay
+  //== Global delay
   delay(1);
 }
 
@@ -174,6 +187,31 @@ void checkRandom() {
   }
 }
 
+void setSceneLighting() {
+  if (sceneName == prevSceneName) return;
+
+  if (sceneName == "Intro") {
+    allPixelsOff();
+    digitalWrite(searchLedPin, HIGH);
+  }
+
+  if (sceneName == "Profile") {
+    for (int i = 0; i < 4; i++) {
+      setIncomePixels(i);
+    }
+
+    // for (int i = 0; i < 5; i++) {
+    //   setRacePixels(i);
+    // }
+    //
+    // for (int i = 0; i < 5; i++) {
+    //   setEducationPixels(i);
+    // }
+  }
+
+  prevSceneName = sceneName;
+}
+
 void spinnerIncome() {
   int randomSelection = random(4);
   while (randomSelection == incomeSelection) {
@@ -207,58 +245,34 @@ void spinnerEducation() {
   Keyboard.write(educationKeys[educationSelection]);
 }
 
-void setIncomePixels(int firstLight) {
-  for (int j = 0; j<4; j++) {
-    int firstPixel = incomeLights[j];
-
-    if (firstLight == firstPixel) {
-      pixels.setPixelColor(firstPixel, 255, 0, 255); //set of 3
-      pixels.setPixelColor(firstPixel + 1, 255, 0, 255);
-      pixels.setPixelColor(firstPixel + 2, 255, 0, 255);
-    } else {
-      pixels.setPixelColor(firstPixel, 0, 0, 0);
-      pixels.setPixelColor(firstPixel + 1, 0, 0, 0);
-      pixels.setPixelColor(firstPixel + 2, 0, 0, 0);
-    }
+void allPixelsOff() {
+  for (int i = 0; i < numOfLeds; i++) {
+    pixels.setPixelColor(i, 0, 0, 0);
   }
+}
 
-  pixels.show();
+void setIncomePixels(int selection) {
+  int firstPixel = incomeLights[selection];
+
+  pixels.setPixelColor(firstPixel, 255, 211, 26);
+  pixels.setPixelColor(firstPixel + 1, 255, 211, 26);
+  pixels.setPixelColor(firstPixel + 2, 255, 211, 26);
 }
 
 
-void setRacePixels(int firstLight) {
-  for (int j = 0; j<5; j++) {
-    int firstPixel = raceLights[j];
+void setRacePixels(int selection) {
+  int firstPixel = raceLights[selection];
 
-    if (firstLight == firstPixel) {
-      pixels.setPixelColor(firstPixel, 255, 0, 255);
-      pixels.setPixelColor(firstPixel + 1, 255, 0, 255);
-      pixels.setPixelColor(firstPixel + 2, 255, 0, 255);
-    } else {
-      pixels.setPixelColor(firstPixel, 0, 0, 0);
-      pixels.setPixelColor(firstPixel + 1, 0, 0, 0);
-      pixels.setPixelColor(firstPixel + 2, 0, 0, 0);
-    }
-  }
-
-  pixels.show();
+  pixels.setPixelColor(firstPixel, 38, 216, 215);
+  pixels.setPixelColor(firstPixel + 1, 38, 216, 215);
+  pixels.setPixelColor(firstPixel + 2, 38, 216, 215);
 }
 
 
-void setEducationPixels(int firstLight) {
-  for (int j = 0; j<5; j++) {
-    int firstPixel = educationLights[j];
+void setEducationPixels(int selection) {
+  int firstPixel = educationLights[selection];
 
-    if (firstLight == firstPixel) {
-      pixels.setPixelColor(firstPixel, 255, 0, 255);
-      pixels.setPixelColor(firstPixel + 1, 255, 0, 255);
-      pixels.setPixelColor(firstPixel + 2, 255, 0, 255);
-    } else {
-      pixels.setPixelColor(firstPixel, 0, 0, 0);
-      pixels.setPixelColor(firstPixel + 1, 0, 0, 0);
-      pixels.setPixelColor(firstPixel + 2, 0, 0, 0);
-    }
-  }
-
-  pixels.show();
+  pixels.setPixelColor(firstPixel, 237, 125, 41);
+  pixels.setPixelColor(firstPixel + 1, 237, 125, 41);
+  pixels.setPixelColor(firstPixel + 2, 237, 125, 41);
 }
