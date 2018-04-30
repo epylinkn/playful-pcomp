@@ -45,8 +45,7 @@ long debounceDelay = 10;
 int resetButtonPin = 2;
 int resetLedPin = 3;
 
-int randomButtonPin = 5;
-int randomLedPin = 4;
+int randomButtonPin = 14;
 
 const int dinPin = 0;    // Din pin to Arduino pin 4
 const int numOfLeds = 48;
@@ -67,7 +66,6 @@ void setup() {
   pinMode(searchButtonPin2, INPUT_PULLUP);
   pinMode(searchButtonPin3, INPUT_PULLUP);
   pinMode(resetLedPin, OUTPUT);
-  pinMode(randomLedPin, OUTPUT);
   pinMode(searchLedPin1, OUTPUT);
   pinMode(searchLedPin2, OUTPUT);
   pinMode(searchLedPin3, OUTPUT);
@@ -233,7 +231,6 @@ void checkRandom() {
   randomButton.update();
 
   if (randomButton.fell()) {
-    digitalWrite(randomLedPin, HIGH);
     Keyboard.write('P');
 
     // NB slot sound is 2.821224 sec
