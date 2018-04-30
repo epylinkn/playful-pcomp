@@ -48,6 +48,8 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(numOfLeds, dinPin, NEO_GRB + NEO_KH
 String sceneName = "Intro";
 String prevSceneName;
 
+int lastStartedAt;
+
 void setup() {
   Keyboard.begin();
   Serial.begin(115200);
@@ -70,6 +72,8 @@ void setup() {
   pixels.setBrightness(5); // Value from 0 to 100%
 
   setSceneLighting();
+
+  lastStartedAt = millis();
 }
 
 void loop() {
@@ -87,6 +91,14 @@ void loop() {
     checkIncomeEncoder();
     checkRaceEncoder();
     checkEducationEncoder();
+  }
+
+  if (sceneName == "Intro") {
+    int elapsedTime = millis() - lastStartedAt;
+
+    if (elapsedTime / 1000 % 2 == 0) {
+      digitalWrite(searchLedPin, HIGH);
+    }
   }
 
   // Always active
@@ -166,6 +178,7 @@ void checkReset() {
     oldIncomePosition = income.read();
     oldRacePosition = race.read();
     oldEducationPosition = education.read();
+    lastStartedAt = millis();
   }
 }
 
