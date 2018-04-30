@@ -193,6 +193,7 @@ void setSceneLighting() {
   if (sceneName == "Intro") {
     allPixelsOff();
     digitalWrite(searchLedPin, HIGH);
+    digitalWrite(resetLedPin, LOW);
   }
 
   if (sceneName == "Profile") {
@@ -200,13 +201,66 @@ void setSceneLighting() {
       setIncomePixels(i);
     }
 
-    // for (int i = 0; i < 5; i++) {
-    //   setRacePixels(i);
-    // }
-    //
-    // for (int i = 0; i < 5; i++) {
-    //   setEducationPixels(i);
-    // }
+    for (int i = 0; i < 5; i++) {
+      setRacePixels(i);
+    }
+
+    for (int i = 0; i < 5; i++) {
+      setEducationPixels(i);
+    }
+
+    digitalWrite(searchLedPin, LOW);
+  }
+
+  if (sceneName == "Searching") {
+    setIncomePixels(incomeSelection);
+    setRacePixels(raceSelection);
+    setEducationPixels(educationSelection);
+
+    digitalWrite(searchLedPin, LOW);
+  }
+
+  if (sceneName == "Game") {
+    setIncomePixels(incomeSelection);
+    setRacePixels(raceSelection);
+    setEducationPixels(educationSelection);
+
+    digitalWrite(searchLedPin, HIGH);
+  }
+
+  if (sceneName == "Explore") {
+    setIncomePixels(incomeSelection);
+    setRacePixels(raceSelection);
+    setEducationPixels(educationSelection);
+
+    digitalWrite(searchLedPin, HIGH);
+  }
+
+  if (sceneName == "Prompt") {
+    allPixelsOff();
+
+    digitalWrite(searchLedPin, LOW);
+  }
+
+  if (sceneName == "RandomProfile") {
+    allPixelsOff();
+
+    digitalWrite(searchLedPin, LOW);
+  }
+
+  if (sceneName == "RandomGame") {
+    setIncomePixels(incomeSelection);
+    setRacePixels(raceSelection);
+    setEducationPixels(educationSelection);
+
+    digitalWrite(searchLedPin, HIGH);
+  }
+
+  if (sceneName == "Outro") {
+    allPixelsOff();
+
+    digitalWrite(searchLedPin, LOW);
+    digitalWrite(resetLedPin, HIGH);
   }
 
   prevSceneName = sceneName;
