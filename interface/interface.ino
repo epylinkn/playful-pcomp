@@ -18,13 +18,13 @@ String educationLabels[] = { "less-than-high-school", "high-school", "some-colle
 char educationKeys[] = { 'Z', 'X', 'C', 'V', 'B' };
 int educationLights[] = { 27, 30, 33, 36, 39 };
 
-long oldIncomePosition = -1;
+long oldIncomePosition = 0;
 int incomeSelection = 0;
 
-long oldRacePosition = -1;
+long oldRacePosition = 0;
 int raceSelection = 0;
 
-long oldEducationPosition = -1;
+long oldEducationPosition = 0;
 int educationSelection = 0;
 
 Bounce resetButton = Bounce();
@@ -45,7 +45,7 @@ const int numOfLeds = 48;
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(numOfLeds, dinPin, NEO_GRB + NEO_KHZ800);
 
-String sceneName = "Profile";
+String sceneName = "Intro";
 String prevSceneName;
 
 void setup() {
@@ -83,20 +83,21 @@ void loop() {
   }
 
   //== Check all our encoders
-  checkIncomeEncoder();
-  checkRaceEncoder();
-  checkEducationEncoder();
+  if (sceneName == "Profile") {
+    checkIncomeEncoder();
+    checkRaceEncoder();
+    checkEducationEncoder();
+  }
 
-  //== Check all our buttons
-  checkSearch();
+  // Always active
   checkReset();
-  checkRandom();
+  checkSearch();
 
-  //== Lights
-  // allPixelsOff();
-  // setIncomePixels(incomeSelection);
-  // setRacePixels(raceSelection);
-  // setEducationPixels(educationSelection);
+  // Only on slot pull scenes
+  if (sceneName == "Prompt" || sceneName == "RandomGame") {
+    checkRandom();
+  }
+
   pixels.show();
 
   //== Global delay
@@ -127,18 +128,19 @@ void checkIncomeEncoder() {
     oldIncomePosition = incomePosition;
 
     Keyboard.write(incomeKeys[incomeSelection]);
+    setIncomePixels(incomeSelection);
   }
 }
 
 void checkRaceEncoder() {
   long racePosition = race.read();
 
-
   if (racePosition != oldRacePosition) {
     raceSelection = getEncoderSelection(racePosition, 5);
     oldRacePosition = racePosition;
 
     Keyboard.write(raceKeys[raceSelection]);
+    setRacePixels(raceSelection);
   }
 }
 
@@ -150,6 +152,7 @@ void checkEducationEncoder() {
     oldEducationPosition = educationPosition;
 
     Keyboard.write(educationKeys[educationSelection]);
+    setEducationPixels(educationSelection);
   }
 }
 
@@ -158,6 +161,11 @@ void checkReset() {
   if (resetButton.fell()) {
     digitalWrite(resetLedPin, HIGH);
     Keyboard.write('I');
+
+    prevSceneName = "NULL";
+    oldIncomePosition = income.read();
+    oldRacePosition = race.read();
+    oldEducationPosition = education.read();
   }
 }
 
