@@ -28,11 +28,19 @@ long oldEducationPosition = 0;
 int educationSelection = 0;
 
 Bounce resetButton = Bounce();
-Bounce searchButton = Bounce();
 Bounce randomButton = Bounce();
 
-int searchButtonPin = 12;
-int searchLedPin = 13;
+Bounce searchButton1 = Bounce();
+Bounce searchButton2 = Bounce();
+Bounce searchButton3 = Bounce();
+int searchButtonPin1 = 4;
+int searchButtonPin2 = 1;
+int searchButtonPin3 = 13;
+int searchLedPin1 = 5;
+int searchLedPin2 = 12;
+int searchLedPin3 = A0;
+long lastSearchDebounceTime = 0;
+long debounceDelay = 10;
 
 int resetButtonPin = 2;
 int resetLedPin = 3;
@@ -54,18 +62,26 @@ void setup() {
   Keyboard.begin();
   Serial.begin(115200);
   pinMode(resetButtonPin, INPUT_PULLUP);
-  pinMode(searchButtonPin, INPUT_PULLUP);
   pinMode(randomButtonPin, INPUT_PULLUP);
+  pinMode(searchButtonPin1, INPUT_PULLUP);
+  pinMode(searchButtonPin2, INPUT_PULLUP);
+  pinMode(searchButtonPin3, INPUT_PULLUP);
   pinMode(resetLedPin, OUTPUT);
-  pinMode(searchLedPin, OUTPUT);
   pinMode(randomLedPin, OUTPUT);
+  pinMode(searchLedPin1, OUTPUT);
+  pinMode(searchLedPin2, OUTPUT);
+  pinMode(searchLedPin3, OUTPUT);
 
-  searchButton.attach(searchButtonPin);
-  searchButton.interval(5);
   resetButton.attach(resetButtonPin);
   resetButton.interval(5);
   randomButton.attach(randomButtonPin);
   randomButton.interval(5);
+  searchButton1.attach(searchButtonPin1);
+  searchButton1.interval(5);
+  searchButton2.attach(searchButtonPin2);
+  searchButton2.interval(5);
+  searchButton3.attach(searchButtonPin3);
+  searchButton3.interval(5);
 
   pixels.begin(); // Initializes the NeoPixel library
   pixels.show(); //// Initialize all pixels to 'off'
@@ -97,7 +113,9 @@ void loop() {
     int elapsedTime = millis() - lastStartedAt;
 
     if (elapsedTime / 1000 % 2 == 0) {
-      digitalWrite(searchLedPin, HIGH);
+      searchLedsHigh();
+    } else {
+      searchLedsLow();
     }
   }
 
@@ -183,12 +201,32 @@ void checkReset() {
 }
 
 void checkSearch() {
-  searchButton.update();
+  searchButton1.update();
+  searchButton2.update();
+  searchButton3.update();
 
-  if (searchButton.fell()) {
-    digitalWrite(searchLedPin, HIGH);
+  if (millis() - lastSearchDebounceTime < debounceDelay) {
+    return;
+  }
+
+  if (searchButton1.fell() || searchButton2.fell() || searchButton3.fell()) {
+    lastSearchDebounceTime = millis();
+
+    searchLedsHigh();
     Keyboard.write('O');
   }
+}
+
+void searchLedsHigh() {
+  digitalWrite(searchLedPin1, HIGH);
+  digitalWrite(searchLedPin2, HIGH);
+  digitalWrite(searchLedPin3, HIGH);
+}
+
+void searchLedsLow() {
+  digitalWrite(searchLedPin1, LOW);
+  digitalWrite(searchLedPin2, LOW);
+  digitalWrite(searchLedPin3, LOW);
 }
 
 void checkRandom() {
@@ -213,7 +251,7 @@ void setSceneLighting() {
 
   if (sceneName == "Intro") {
     allPixelsOff();
-    digitalWrite(searchLedPin, HIGH);
+    searchLedsHigh();
     digitalWrite(resetLedPin, LOW);
   }
 
@@ -230,7 +268,7 @@ void setSceneLighting() {
       setEducationPixels(i);
     }
 
-    digitalWrite(searchLedPin, LOW);
+    searchLedsLow();
   }
 
   if (sceneName == "Searching") {
@@ -238,7 +276,7 @@ void setSceneLighting() {
     setRacePixels(raceSelection);
     setEducationPixels(educationSelection);
 
-    digitalWrite(searchLedPin, LOW);
+    searchLedsLow();
   }
 
   if (sceneName == "Game") {
@@ -246,7 +284,7 @@ void setSceneLighting() {
     setRacePixels(raceSelection);
     setEducationPixels(educationSelection);
 
-    digitalWrite(searchLedPin, HIGH);
+    searchLedsHigh();
   }
 
   if (sceneName == "Explore") {
@@ -254,19 +292,19 @@ void setSceneLighting() {
     setRacePixels(raceSelection);
     setEducationPixels(educationSelection);
 
-    digitalWrite(searchLedPin, HIGH);
+    searchLedsHigh();
   }
 
   if (sceneName == "Prompt") {
     allPixelsOff();
 
-    digitalWrite(searchLedPin, LOW);
+    searchLedsLow();
   }
 
   if (sceneName == "RandomProfile") {
     allPixelsOff();
 
-    digitalWrite(searchLedPin, LOW);
+    searchLedsLow();
   }
 
   if (sceneName == "RandomGame") {
@@ -274,13 +312,13 @@ void setSceneLighting() {
     setRacePixels(raceSelection);
     setEducationPixels(educationSelection);
 
-    digitalWrite(searchLedPin, HIGH);
+    searchLedsHigh();
   }
 
   if (sceneName == "Outro") {
     allPixelsOff();
 
-    digitalWrite(searchLedPin, LOW);
+    searchLedsLow();
     digitalWrite(resetLedPin, HIGH);
   }
 
