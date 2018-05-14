@@ -252,18 +252,6 @@ void setSceneLighting() {
   }
 
   if (sceneName == "Profile") {
-    // for (int i = 0; i < 4; i++) {
-    //   setIncomePixels(i);
-    // }
-    //
-    // for (int i = 0; i < 5; i++) {
-    //   setRacePixels(i);
-    // }
-    //
-    // for (int i = 0; i < 5; i++) {
-    //   setEducationPixels(i);
-    // }
-
     searchLedsLow();
   }
 
