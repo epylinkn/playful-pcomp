@@ -4,9 +4,9 @@
 #include <Keyboard.h>
 #include <Wire.h>
 
-Encoder race(8, 9);
 Encoder income(6, 7);
-Encoder education(10, 11);
+Encoder race(8, 9);
+Encoder education(10, 13);
 
 String incomeLabels[] = { "lower", "middle", "upper-middle", "upper" };
 char incomeKeys[] = { 'Q', 'W', 'E', 'R' };
@@ -28,14 +28,17 @@ Bounce resetButton = Bounce();
 Bounce randomButton = Bounce();
 
 Bounce searchButton1 = Bounce();
-Bounce searchButton2 = Bounce();
-Bounce searchButton3 = Bounce();
 int searchButtonPin1 = 4;
-int searchButtonPin2 = 1;
-int searchButtonPin3 = 13;
 int searchLedPin1 = 5;
-int searchLedPin2 = 12;
-int searchLedPin3 = A0;
+
+Bounce searchButton2 = Bounce();
+int searchButtonPin2 = A2;
+int searchLedPin2 = A1;
+
+Bounce searchButton3 = Bounce();
+int searchButtonPin3 = A4;
+int searchLedPin3 = A3;
+
 long lastSearchDebounceTime = 0;
 long debounceDelay = 10;
 
@@ -115,18 +118,17 @@ void loop() {
     checkRandom();
   }
 
-  pixels.show();
-
   //== Global delay
   delay(1);
 }
 
 void sendToUno(char key) {
-  Wire.requestFrom(9, 1);
+  // Wire.requestFrom(9, 1);
   Wire.beginTransmission(9); // transmit to device #9
   Wire.write(key);
   Wire.endTransmission();    // stop transmitting
-  delay(10);
+
+  return;
 }
 
 // Random utility to "constrain" but wrapover
