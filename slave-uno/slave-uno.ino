@@ -4,15 +4,20 @@
 const int STRIP_PIN = 11;
 const int NUM_PIXELS = 103;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, STRIP_PIN);
-//int incomeLights[] = {70, 78, 86, 94};
+Adafruit_NeoPixel incomeStrip = Adafruit_NeoPixel(3, 5);
+Adafruit_NeoPixel raceStrip = Adafruit_NeoPixel(3, 4);
+Adafruit_NeoPixel educationStrip = Adafruit_NeoPixel(4, 3);
 
-int incomeOn = NULL; // Off = 0 On = 1
+int incomeOn = NULL;
 int raceOn = NULL;
 int educationOn = NULL;
 
 void setup() {
   Serial.begin(115200);
+
   strip.begin();
+
+  turnOnLabels();
 
   // Start the I2C Bus as Slave on address 9
   Wire.begin(9);
@@ -26,11 +31,33 @@ void loop() {
   setEducationPixels() ;
 
   strip.show();
+
+  /** GLOBAL DELAY **/
   delay(30);
 }
 
-void receiveEvent(int bytes) {
+void turnOnLabels() {
+  incomeStrip.begin();
+  for (int i = 0; i < 3; i++) {
+    incomeStrip.setPixelColor(i, 50, 20, 20);
+  }
+  incomeStrip.show();
 
+  raceStrip.begin();
+  for (int j = 0; j < 3; j++) {
+    raceStrip.setPixelColor(j, 20, 50, 20);
+  }
+  raceStrip.show();
+
+  educationStrip.begin();
+  for (int i = 0; i < 4; i++) {
+    educationStrip.setPixelColor(i, 20, 20, 50);
+  }
+  educationStrip.show();
+}
+
+
+void receiveEvent(int bytes) {
   while (Wire.available() > 0) {
     //Read one value from the I2C
     char receivedChar = Wire.read();
