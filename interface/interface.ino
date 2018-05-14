@@ -4,14 +4,14 @@
 #include <Keyboard.h>
 #include <Wire.h>
 
-Encoder income(6, 7);
+Encoder income(7, 6);
 Encoder race(8, 9);
-Encoder education(10, 13);
+Encoder education(13, 10);
 
 String incomeLabels[] = { "lower", "middle", "upper-middle", "upper" };
 char incomeKeys[] = { 'Q', 'W', 'E', 'R' };
-String raceLabels[] = { "black", "hispanic", "other", "asian", "white" };
-char raceKeys[] = { 'A', 'S', 'D', 'F', 'G' };
+String raceLabels[] = { "black", "asian", "white", "hispanic", "other" };
+char raceKeys[] = { 'A', 'G', 'F', 'S', 'D' };
 String educationLabels[] = { "less-than-high-school", "high-school", "some-college", "bachelors", "advanced" };
 char educationKeys[] = { 'Z', 'X', 'C', 'V', 'B' };
 

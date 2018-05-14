@@ -49,21 +49,23 @@ void receiveEvent(int bytes) {
     else if (receivedChar == 'R') {
       incomeOn = 3;
     }
+
     else if (receivedChar == 'A') {
       raceOn = 4;
     }
     else if (receivedChar == 'S') {
-      raceOn = 5;
-    }
-    else if (receivedChar == 'D') {
-      raceOn = 6;
-    }
-    else if (receivedChar == 'F') {
       raceOn = 7;
     }
-    else if (receivedChar == 'G') {
+    else if (receivedChar == 'D') {
       raceOn = 8;
     }
+    else if (receivedChar == 'F') {
+      raceOn = 5;
+    }
+    else if (receivedChar == 'G') {
+      raceOn = 6;
+    }
+
     else if (receivedChar == 'Z') {
       educationOn = 9;
     }
