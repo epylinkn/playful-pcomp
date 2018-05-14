@@ -2,7 +2,7 @@
 #include <Encoder.h>
 #include <Bounce2.h>
 #include <Keyboard.h>
-#include <Adafruit_NeoPixel.h>
+#include <Wire.h>
 
 Encoder race(8, 9);
 Encoder income(6, 7);
@@ -10,13 +10,10 @@ Encoder education(10, 11);
 
 String incomeLabels[] = { "lower", "middle", "upper-middle", "upper" };
 char incomeKeys[] = { 'Q', 'W', 'E', 'R' };
-int incomeLights[] = { 0, 3, 6, 9 };
 String raceLabels[] = { "black", "hispanic", "other", "asian", "white" };
 char raceKeys[] = { 'A', 'S', 'D', 'F', 'G' };
-int raceLights[] = { 12, 15, 18, 21, 24 };
 String educationLabels[] = { "less-than-high-school", "high-school", "some-college", "bachelors", "advanced" };
 char educationKeys[] = { 'Z', 'X', 'C', 'V', 'B' };
-int educationLights[] = { 27, 30, 33, 36, 39 };
 
 long oldIncomePosition = 0;
 int incomeSelection = 0;
@@ -47,17 +44,13 @@ int resetLedPin = 3;
 
 int randomButtonPin = 14;
 
-const int dinPin = 0;    // Din pin to Arduino pin 4
-const int numOfLeds = 48;
-
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(numOfLeds, dinPin, NEO_GRB + NEO_KHZ800);
-
 String sceneName = "Intro";
 String prevSceneName;
 
 int lastStartedAt;
 
 void setup() {
+  Wire.begin();
   Keyboard.begin();
   Serial.begin(115200);
   pinMode(resetButtonPin, INPUT_PULLUP);
@@ -80,10 +73,6 @@ void setup() {
   searchButton2.interval(5);
   searchButton3.attach(searchButtonPin3);
   searchButton3.interval(5);
-
-  pixels.begin(); // Initializes the NeoPixel library
-  pixels.show(); //// Initialize all pixels to 'off'
-  pixels.setBrightness(5); // Value from 0 to 100%
 
   setSceneLighting();
 
@@ -132,6 +121,14 @@ void loop() {
   delay(1);
 }
 
+void sendToUno(char key) {
+  Wire.requestFrom(9, 1);
+  Wire.beginTransmission(9); // transmit to device #9
+  Wire.write(key);
+  Wire.endTransmission();    // stop transmitting
+  delay(10);
+}
+
 // Random utility to "constrain" but wrapover
 int rollover(int x, int lower, int upper) {
   int range = upper - lower;
@@ -156,7 +153,7 @@ void checkIncomeEncoder() {
     oldIncomePosition = incomePosition;
 
     Keyboard.write(incomeKeys[incomeSelection]);
-    setIncomePixels(incomeSelection);
+    sendToUno(incomeKeys[incomeSelection]);
   }
 }
 
@@ -168,7 +165,7 @@ void checkRaceEncoder() {
     oldRacePosition = racePosition;
 
     Keyboard.write(raceKeys[raceSelection]);
-    setRacePixels(raceSelection);
+    sendToUno(raceKeys[raceSelection]);
   }
 }
 
@@ -180,7 +177,7 @@ void checkEducationEncoder() {
     oldEducationPosition = educationPosition;
 
     Keyboard.write(educationKeys[educationSelection]);
-    setEducationPixels(educationSelection);
+    sendToUno(educationKeys[educationSelection]);
   }
 }
 
@@ -247,73 +244,73 @@ void setSceneLighting() {
   if (sceneName == prevSceneName) return;
 
   if (sceneName == "Intro") {
-    allPixelsOff();
+    // allPixelsOn();
     searchLedsHigh();
     digitalWrite(resetLedPin, LOW);
   }
 
   if (sceneName == "Profile") {
-    for (int i = 0; i < 4; i++) {
-      setIncomePixels(i);
-    }
-
-    for (int i = 0; i < 5; i++) {
-      setRacePixels(i);
-    }
-
-    for (int i = 0; i < 5; i++) {
-      setEducationPixels(i);
-    }
+    // for (int i = 0; i < 4; i++) {
+    //   setIncomePixels(i);
+    // }
+    //
+    // for (int i = 0; i < 5; i++) {
+    //   setRacePixels(i);
+    // }
+    //
+    // for (int i = 0; i < 5; i++) {
+    //   setEducationPixels(i);
+    // }
 
     searchLedsLow();
   }
 
   if (sceneName == "Searching") {
-    setIncomePixels(incomeSelection);
-    setRacePixels(raceSelection);
-    setEducationPixels(educationSelection);
+    // setIncomePixels(incomeSelection);
+    // setRacePixels(raceSelection);
+    // setEducationPixels(educationSelection);
 
     searchLedsLow();
   }
 
   if (sceneName == "Game") {
-    setIncomePixels(incomeSelection);
-    setRacePixels(raceSelection);
-    setEducationPixels(educationSelection);
+    // setIncomePixels(incomeSelection);
+    // setRacePixels(raceSelection);
+    // setEducationPixels(educationSelection);
 
     searchLedsHigh();
   }
 
   if (sceneName == "Explore") {
-    setIncomePixels(incomeSelection);
-    setRacePixels(raceSelection);
-    setEducationPixels(educationSelection);
+    // setIncomePixels(incomeSelection);
+    // setRacePixels(raceSelection);
+    // setEducationPixels(educationSelection);
 
     searchLedsHigh();
   }
 
   if (sceneName == "Prompt") {
-    allPixelsOff();
+    // allPixelsOn();
 
     searchLedsLow();
   }
 
   if (sceneName == "RandomProfile") {
-    allPixelsOff();
+    // allPixelsOn();
 
     searchLedsLow();
   }
 
   if (sceneName == "RandomGame") {
-    setIncomePixels(incomeSelection);
-    setRacePixels(raceSelection);
-    setEducationPixels(educationSelection);
+    // setIncomePixels(incomeSelection);
+    // setRacePixels(raceSelection);
+    // setEducationPixels(educationSelection);
 
     searchLedsHigh();
   }
 
   if (sceneName == "Outro") {
-    allPixelsOff();
+    // allPixelsOn();
 
     searchLedsLow();
     digitalWrite(resetLedPin, HIGH);
@@ -329,7 +326,6 @@ void spinnerIncome() {
   }
 
   incomeSelection = randomSelection;
-  setIncomePixels(incomeLights[incomeSelection]);
   Keyboard.write(incomeKeys[incomeSelection]);
 }
 
@@ -340,7 +336,6 @@ void spinnerRace() {
   }
 
   raceSelection = randomSelection;
-  setRacePixels(raceLights[raceSelection]);
   Keyboard.write(raceKeys[raceSelection]);
 }
 
@@ -351,38 +346,5 @@ void spinnerEducation() {
   }
 
   educationSelection = randomSelection;
-  setEducationPixels(educationLights[educationSelection]);
   Keyboard.write(educationKeys[educationSelection]);
-}
-
-void allPixelsOff() {
-  for (int i = 0; i < numOfLeds; i++) {
-    pixels.setPixelColor(i, 0, 0, 0);
-  }
-}
-
-void setIncomePixels(int selection) {
-  int firstPixel = incomeLights[selection];
-
-  pixels.setPixelColor(firstPixel, 255, 211, 26);
-  pixels.setPixelColor(firstPixel + 1, 255, 211, 26);
-  pixels.setPixelColor(firstPixel + 2, 255, 211, 26);
-}
-
-
-void setRacePixels(int selection) {
-  int firstPixel = raceLights[selection];
-
-  pixels.setPixelColor(firstPixel, 38, 216, 215);
-  pixels.setPixelColor(firstPixel + 1, 38, 216, 215);
-  pixels.setPixelColor(firstPixel + 2, 38, 216, 215);
-}
-
-
-void setEducationPixels(int selection) {
-  int firstPixel = educationLights[selection];
-
-  pixels.setPixelColor(firstPixel, 237, 125, 41);
-  pixels.setPixelColor(firstPixel + 1, 237, 125, 41);
-  pixels.setPixelColor(firstPixel + 2, 237, 125, 41);
 }
