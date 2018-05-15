@@ -101,7 +101,7 @@ void loop() {
   if (sceneName == "Intro") {
     int elapsedTime = millis() - lastStartedAt;
 
-    if (elapsedTime / 1000 % 2 == 0) {
+    if (elapsedTime / 700 % 2 == 0) {
       searchLedsHigh();
     } else {
       searchLedsLow();
@@ -298,7 +298,7 @@ void setSceneLighting() {
 
   if (sceneName == "Searching") {
     searchingStartedAt = millis();
-    searchLedsLow();
+    searchLedsHigh();
   }
 
   if (sceneName == "Game") {
