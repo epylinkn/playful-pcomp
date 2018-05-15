@@ -45,19 +45,19 @@ void loop() {
 void turnOnLabels() {
   incomeStrip.begin();
   for (int i = 0; i < 3; i++) {
-    incomeStrip.setPixelColor(i, 50, 20, 20);
+    incomeStrip.setPixelColor(i, 255, 160, 0);
   }
   incomeStrip.show();
 
   raceStrip.begin();
   for (int j = 0; j < 3; j++) {
-    raceStrip.setPixelColor(j, 20, 50, 20);
+    raceStrip.setPixelColor(j, 0, 120, 60);
   }
   raceStrip.show();
 
   educationStrip.begin();
   for (int i = 0; i < 4; i++) {
-    educationStrip.setPixelColor(i, 20, 20, 50);
+    educationStrip.setPixelColor(i, 200, 20, 50);
   }
   educationStrip.show();
 }
@@ -162,50 +162,50 @@ void setIncomePixels() {
 
     if ( incomeOn == 0 ) {
       Serial.println("lower");
-      strip.setPixelColor(70, 255, 0, 0);
-      strip.setPixelColor(71, 255, 0, 0);
-      strip.setPixelColor(72, 255, 0, 0);
-      strip.setPixelColor(73, 255, 0, 0);
-      strip.setPixelColor(74, 255, 0, 0);
-      strip.setPixelColor(75, 255, 0, 0);
-      strip.setPixelColor(76, 255, 0, 0);
-      strip.setPixelColor(77, 255, 0, 0);
+      strip.setPixelColor(70, 255, 160, 0);
+      strip.setPixelColor(71, 255, 160, 0);
+      strip.setPixelColor(72, 255, 160, 0);
+      strip.setPixelColor(73, 255, 160, 0);
+      strip.setPixelColor(74, 255, 160, 0);
+      strip.setPixelColor(75, 255, 160, 0);
+      strip.setPixelColor(76, 255, 160, 0);
+      strip.setPixelColor(77, 255, 160, 0);
     }
 
     else if ( incomeOn == 1) {
       Serial.println("middle");
-      strip.setPixelColor(78, 255, 0, 0);
-      strip.setPixelColor(79, 255, 0, 0);
-      strip.setPixelColor(80, 255, 0, 0);
-      strip.setPixelColor(81, 255, 0, 0);
-      strip.setPixelColor(82, 255, 0, 0);
-      strip.setPixelColor(83, 255, 0, 0);
-      strip.setPixelColor(84, 255, 0, 0);
-      strip.setPixelColor(85, 255, 0, 0);
+      strip.setPixelColor(78, 255, 160, 0);
+      strip.setPixelColor(79, 255, 160, 0);
+      strip.setPixelColor(80, 255, 160, 0);
+      strip.setPixelColor(81, 255, 160, 0);
+      strip.setPixelColor(82, 255, 160, 0);
+      strip.setPixelColor(83, 255, 160, 0);
+      strip.setPixelColor(84, 255, 160, 0);
+      strip.setPixelColor(85, 255, 160, 0);
     }
 
     else if ( incomeOn == 2) {
       Serial.println("upper-middle");
-      strip.setPixelColor(86, 255, 0, 0);
-      strip.setPixelColor(87, 255, 0, 0);
-      strip.setPixelColor(88, 255, 0, 0);
-      strip.setPixelColor(89, 255, 0, 0);
-      strip.setPixelColor(90, 255, 0, 0);
-      strip.setPixelColor(91, 255, 0, 0);
-      strip.setPixelColor(92, 255, 0, 0);
-      strip.setPixelColor(93, 255, 0, 0);
+      strip.setPixelColor(86, 255, 160, 0);
+      strip.setPixelColor(87, 255, 160, 0);
+      strip.setPixelColor(88, 255, 160, 0);
+      strip.setPixelColor(89, 255, 160, 0);
+      strip.setPixelColor(90, 255, 160, 0);
+      strip.setPixelColor(91, 255, 160, 0);
+      strip.setPixelColor(92, 255, 160, 0);
+      strip.setPixelColor(93, 255, 160, 0);
     }
     else if ( incomeOn == 3) {
       Serial.println("upper");
-      strip.setPixelColor(94, 255, 0, 0);
-      strip.setPixelColor(95, 255, 0, 0);
-      strip.setPixelColor(96, 255, 0, 0);
-      strip.setPixelColor(97, 255, 0, 0);
-      strip.setPixelColor(98, 255, 0, 0);
-      strip.setPixelColor(99, 255, 0, 0);
-      strip.setPixelColor(100, 255, 0, 0);
-      strip.setPixelColor(101, 255, 0, 0);
-      strip.setPixelColor(102, 255, 0, 0);
+      strip.setPixelColor(94, 255, 160, 0);
+      strip.setPixelColor(95, 255, 160, 0);
+      strip.setPixelColor(96, 255, 160, 0);
+      strip.setPixelColor(97, 255, 160, 0);
+      strip.setPixelColor(98, 255, 160, 0);
+      strip.setPixelColor(99, 255, 160, 0);
+      strip.setPixelColor(100, 255, 160, 0);
+      strip.setPixelColor(101, 255, 160, 0);
+      strip.setPixelColor(102, 255, 160, 0);
     }
   }
 }
@@ -216,58 +216,58 @@ void setRacePixels() {
 
     if ( raceOn == 4 ) {
       Serial.println("black");
-      strip.setPixelColor(61, 0, 255, 0);
-      strip.setPixelColor(62, 0, 255, 0);
-      strip.setPixelColor(63, 0, 255, 0);
-      strip.setPixelColor(64, 0, 255, 0);
-      strip.setPixelColor(65, 0, 255, 0);
-      strip.setPixelColor(66, 0, 255, 0);
-      strip.setPixelColor(67, 0, 255, 0);
-      strip.setPixelColor(68, 0, 255, 0);
-      strip.setPixelColor(69, 0, 255, 0);
+      strip.setPixelColor(61, 0, 120, 60);
+      strip.setPixelColor(62, 0, 120, 60);
+      strip.setPixelColor(63, 0, 120, 60);
+      strip.setPixelColor(64, 0, 120, 60);
+      strip.setPixelColor(65, 0, 120, 60);
+      strip.setPixelColor(66, 0, 120, 60);
+      strip.setPixelColor(67, 0, 120, 60);
+      strip.setPixelColor(68, 0, 120, 60);
+      strip.setPixelColor(69, 0, 120, 60);
     }
 
     else if ( raceOn == 5 ) {
       Serial.println("hispanic");
-      strip.setPixelColor(48, 0, 255, 0);
-      strip.setPixelColor(49, 0, 255, 0);
-      strip.setPixelColor(50, 0, 255, 0);
-      strip.setPixelColor(51, 0, 255, 0);
-      strip.setPixelColor(52, 0, 255, 0);
-      strip.setPixelColor(53, 0, 255, 0);
+      strip.setPixelColor(48, 0, 120, 60);
+      strip.setPixelColor(49, 0, 120, 60);
+      strip.setPixelColor(50, 0, 120, 60);
+      strip.setPixelColor(51, 0, 120, 60);
+      strip.setPixelColor(52, 0, 120, 60);
+      strip.setPixelColor(53, 0, 120, 60);
     }
 
     else if ( raceOn == 6 ) {
       Serial.println("other");
-      strip.setPixelColor(54, 0, 255, 0);
-      strip.setPixelColor(55, 0, 255, 0);
-      strip.setPixelColor(56, 0, 255, 0);
-      strip.setPixelColor(57, 0, 255, 0);
-      strip.setPixelColor(58, 0, 255, 0);
-      strip.setPixelColor(59, 0, 255, 0);
-      strip.setPixelColor(60, 0, 255, 0);
+      strip.setPixelColor(54, 0, 120, 60);
+      strip.setPixelColor(55, 0, 120, 60);
+      strip.setPixelColor(56, 0, 120, 60);
+      strip.setPixelColor(57, 0, 120, 60);
+      strip.setPixelColor(58, 0, 120, 60);
+      strip.setPixelColor(59, 0, 120, 60);
+      strip.setPixelColor(60, 0, 120, 60);
     }
 
     else if ( raceOn == 7 ) {
       Serial.println("asian");
-      strip.setPixelColor(41, 0, 255, 0);
-      strip.setPixelColor(42, 0, 255, 0);
-      strip.setPixelColor(43, 0, 255, 0);
-      strip.setPixelColor(44, 0, 255, 0);
-      strip.setPixelColor(45, 0, 255, 0);
-      strip.setPixelColor(46, 0, 255, 0);
-      strip.setPixelColor(47, 0, 255, 0);
+      strip.setPixelColor(41, 0, 120, 60);
+      strip.setPixelColor(42, 0, 120, 60);
+      strip.setPixelColor(43, 0, 120, 60);
+      strip.setPixelColor(44, 0, 120, 60);
+      strip.setPixelColor(45, 0, 120, 60);
+      strip.setPixelColor(46, 0, 120, 60);
+      strip.setPixelColor(47, 0, 120, 60);
     }
 
     else if ( raceOn == 8 ) {
       Serial.println("white");
-      strip.setPixelColor(34, 0, 255, 0);
-      strip.setPixelColor(35, 0, 255, 0);
-      strip.setPixelColor(36, 0, 255, 0);
-      strip.setPixelColor(37, 0, 255, 0);
-      strip.setPixelColor(38, 0, 255, 0);
-      strip.setPixelColor(39, 0, 255, 0);
-      strip.setPixelColor(40, 0, 255, 0);
+      strip.setPixelColor(34, 0, 120, 60);
+      strip.setPixelColor(35, 0, 120, 60);
+      strip.setPixelColor(36, 0, 120, 60);
+      strip.setPixelColor(37, 0, 120, 60);
+      strip.setPixelColor(38, 0, 120, 60);
+      strip.setPixelColor(39, 0, 120, 60);
+      strip.setPixelColor(40, 0, 120, 60);
     }
   }
 }
@@ -278,56 +278,56 @@ void setEducationPixels() {
 
     if ( educationOn == 9 ) {
       Serial.println("less-than-high-school");
-      strip.setPixelColor(28, 0, 0, 255);
-      strip.setPixelColor(29, 0, 0, 255);
-      strip.setPixelColor(30, 0, 0, 255);
-      strip.setPixelColor(31,0, 0, 255);
-      strip.setPixelColor(32, 0, 0, 255);
-      strip.setPixelColor(33, 0, 0, 255);
+      strip.setPixelColor(28, 200, 20, 50);
+      strip.setPixelColor(29, 200, 20, 50);
+      strip.setPixelColor(30, 200, 20, 50);
+      strip.setPixelColor(31, 200, 20, 50);
+      strip.setPixelColor(32, 200, 20, 50);
+      strip.setPixelColor(33, 200, 20, 50);
     }
 
     else if ( educationOn == 10 ) {
       Serial.println("high-school");
-      strip.setPixelColor(0, 0, 0, 255);
-      strip.setPixelColor(1, 0, 0, 255);
-      strip.setPixelColor(2, 0, 0, 255);
-      strip.setPixelColor(3, 0, 0, 255);
-      strip.setPixelColor(4, 0, 0, 255);
-      strip.setPixelColor(5, 0, 0, 255);
-      strip.setPixelColor(6, 0, 0, 255);
+      strip.setPixelColor(0, 200, 20, 50);
+      strip.setPixelColor(1, 200, 20, 50);
+      strip.setPixelColor(2, 200, 20, 50);
+      strip.setPixelColor(3, 200, 20, 50);
+      strip.setPixelColor(4, 200, 20, 50);
+      strip.setPixelColor(5, 200, 20, 50);
+      strip.setPixelColor(6, 200, 20, 50);
     }
 
     else if ( educationOn == 11 ) {
       Serial.println("some-college");
-      strip.setPixelColor(7, 0, 0, 255);
-      strip.setPixelColor(8, 0, 0, 255);
-      strip.setPixelColor(9, 0, 0, 255);
-      strip.setPixelColor(10,0, 0, 255);
-      strip.setPixelColor(11, 0, 0, 255);
-      strip.setPixelColor(12, 0, 0, 255);
-      strip.setPixelColor(13, 0, 0, 255);
+      strip.setPixelColor(7, 200, 20, 50);
+      strip.setPixelColor(8, 200, 20, 50);
+      strip.setPixelColor(9, 200, 20, 50);
+      strip.setPixelColor(10, 200, 20, 50);
+      strip.setPixelColor(11, 200, 20, 50);
+      strip.setPixelColor(12, 200, 20, 50);
+      strip.setPixelColor(13, 200, 20, 50);
     }
 
     else if ( educationOn == 12 ) {
       Serial.println("bachelors");
-      strip.setPixelColor(14, 0, 0, 255);
-      strip.setPixelColor(15, 0, 0, 255);
-      strip.setPixelColor(16, 0, 0, 255);
-      strip.setPixelColor(17, 0, 0, 255);
-      strip.setPixelColor(18, 0, 0, 255);
-      strip.setPixelColor(19, 0, 0, 255);
-      strip.setPixelColor(20, 0, 0, 255);
+      strip.setPixelColor(14, 200, 20, 50);
+      strip.setPixelColor(15, 200, 20, 50);
+      strip.setPixelColor(16, 200, 20, 50);
+      strip.setPixelColor(17, 200, 20, 50);
+      strip.setPixelColor(18, 200, 20, 50);
+      strip.setPixelColor(19, 200, 20, 50);
+      strip.setPixelColor(20, 200, 20, 50);
     }
 
     else if ( educationOn == 13 ) {
       Serial.println("advanced");
-      strip.setPixelColor(21, 0, 0, 255);
-      strip.setPixelColor(22, 0, 0, 255);
-      strip.setPixelColor(23, 0, 0, 255);
-      strip.setPixelColor(24, 0, 0, 255);
-      strip.setPixelColor(25, 0, 0, 255);
-      strip.setPixelColor(26, 0, 0, 255);
-      strip.setPixelColor(27, 0, 0, 255);
+      strip.setPixelColor(21, 200, 20, 50);
+      strip.setPixelColor(22, 200, 20, 50);
+      strip.setPixelColor(23, 200, 20, 50);
+      strip.setPixelColor(24, 200, 20, 50);
+      strip.setPixelColor(25, 200, 20, 50);
+      strip.setPixelColor(26, 200, 20, 50);
+      strip.setPixelColor(27, 200, 20, 50);
     }
   }
 }

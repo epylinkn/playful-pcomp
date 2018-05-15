@@ -293,7 +293,7 @@ void setSceneLighting() {
   }
 
   if (sceneName == "Profile") {
-    searchLedsLow();
+    searchLedsHigh();
   }
 
   if (sceneName == "Searching") {
