@@ -12,6 +12,8 @@ int incomeOn = -1;
 int raceOn = -1;
 int educationOn = -1;
 
+bool isOutro = false;
+
 void setup() {
   Serial.begin(115200);
 
@@ -26,9 +28,13 @@ void setup() {
 }
 
 void loop() {
-  setRacePixels();
-  setIncomePixels();
-  setEducationPixels() ;
+  if (isOutro) {
+    allPixelsOff();
+  } else {
+    setRacePixels();
+    setIncomePixels();
+    setEducationPixels() ;
+  }
 
   strip.show();
 
@@ -52,6 +58,26 @@ void turnOnLabels() {
   educationStrip.begin();
   for (int i = 0; i < 4; i++) {
     educationStrip.setPixelColor(i, 20, 20, 50);
+  }
+  educationStrip.show();
+}
+
+void turnOffLabels() {
+  incomeStrip.begin();
+  for (int i = 0; i < 3; i++) {
+    incomeStrip.setPixelColor(i, 0, 0, 0);
+  }
+  incomeStrip.show();
+
+  raceStrip.begin();
+  for (int j = 0; j < 3; j++) {
+    raceStrip.setPixelColor(j, 0, 0, 0);
+  }
+  raceStrip.show();
+
+  educationStrip.begin();
+  for (int i = 0; i < 4; i++) {
+    educationStrip.setPixelColor(i, 0, 0, 0);
   }
   educationStrip.show();
 }
@@ -109,13 +135,25 @@ void receiveEvent(int bytes) {
       educationOn = 13;
     }
     else if (receivedChar == 'I') {
+      // RESET lights (on)
       incomeOn = -1;
       raceOn = -1;
       educationOn = -1;
+      isOutro = false;
+      turnOnLabels();
+    } else if (receivedChar == '0') {
+      // DIM lights
+      isOutro = true;
+      turnOffLabels();
     }
   }
 }
 
+void allPixelsOff() {
+  for (int i = 0; i < 103; i++) {
+    strip.setPixelColor(i, 0, 0, 0);
+  }
+}
 
 void setIncomePixels() {
   for (int i = 70; i < 103; i++) {

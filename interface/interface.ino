@@ -256,38 +256,23 @@ void setSceneLighting() {
   }
 
   if (sceneName == "Searching") {
-    // setIncomePixels(incomeSelection);
-    // setRacePixels(raceSelection);
-    // setEducationPixels(educationSelection);
-
     searchLedsLow();
   }
 
   if (sceneName == "Game") {
-    // setIncomePixels(incomeSelection);
-    // setRacePixels(raceSelection);
-    // setEducationPixels(educationSelection);
-
     searchLedsHigh();
   }
 
   if (sceneName == "Explore") {
-    // setIncomePixels(incomeSelection);
-    // setRacePixels(raceSelection);
-    // setEducationPixels(educationSelection);
-
     searchLedsHigh();
   }
 
   if (sceneName == "Prompt") {
-    // allPixelsOn();
-
+    sendToUno('I'); // reset knob lights
     searchLedsLow();
   }
 
   if (sceneName == "RandomProfile") {
-    // allPixelsOn();
-
     searchLedsLow();
   }
 
@@ -300,8 +285,7 @@ void setSceneLighting() {
   }
 
   if (sceneName == "Outro") {
-    // allPixelsOn();
-
+    sendToUno('0');
     searchLedsLow();
     digitalWrite(resetLedPin, HIGH);
   }
