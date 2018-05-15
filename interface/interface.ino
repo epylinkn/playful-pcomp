@@ -197,12 +197,17 @@ void checkReset() {
     digitalWrite(resetLedPin, HIGH);
     Keyboard.write('I');
 
-    prevSceneName = "NULL";
-    oldIncomePosition = income.read();
-    oldRacePosition = race.read();
-    oldEducationPosition = education.read();
-    lastStartedAt = millis();
+    resetGame();
   }
+}
+
+void resetGame() {
+  prevSceneName = "NULL";
+  oldIncomePosition = income.read();
+  oldRacePosition = race.read();
+  oldEducationPosition = education.read();
+  lastStartedAt = millis();
+  firstSpin = true;
 }
 
 void checkSearch() {
@@ -270,6 +275,7 @@ void setSceneLighting() {
   if (sceneName == prevSceneName) return;
 
   if (sceneName == "Intro") {
+    resetGame();
     sendToUno('I'); // reset knob lights
     searchLedsHigh();
     digitalWrite(resetLedPin, LOW);
@@ -302,10 +308,6 @@ void setSceneLighting() {
   }
 
   if (sceneName == "RandomGame") {
-    // setIncomePixels(incomeSelection);
-    // setRacePixels(raceSelection);
-    // setEducationPixels(educationSelection);
-
     searchLedsHigh();
   }
 
