@@ -4,9 +4,9 @@
 #include <Keyboard.h>
 #include <Wire.h>
 
-Encoder income(7, 6);
+Encoder income(6, 7);
 Encoder race(8, 9);
-Encoder education(13, 10);
+Encoder education(10, 13);
 
 String incomeLabels[] = { "lower", "middle", "upper-middle", "upper" };
 char incomeKeys[] = { 'Q', 'W', 'E', 'R' };
@@ -135,7 +135,7 @@ void loop() {
 }
 
 void sendToUno(char key) {
-  // Wire.requestFrom(9, 1);
+  Wire.requestFrom(9, 1);
   Wire.beginTransmission(9); // transmit to device #9
   Wire.write(key);
   Wire.endTransmission();    // stop transmitting

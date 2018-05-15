@@ -141,7 +141,8 @@ void receiveEvent(int bytes) {
       educationOn = -1;
       isOutro = false;
       turnOnLabels();
-    } else if (receivedChar == '0') {
+    }
+    else if (receivedChar == '0') {
       // DIM lights
       isOutro = true;
       turnOffLabels();
