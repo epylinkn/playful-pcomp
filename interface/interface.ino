@@ -338,6 +338,7 @@ void spinnerIncome() {
   }
 
   Keyboard.write(incomeKeys[randomSelection]);
+  sendToUno(incomeKeys[randomSelection]);
   lastIncomeSpin = randomSelection;
 }
 
@@ -348,6 +349,7 @@ void spinnerRace() {
   }
 
   Keyboard.write(raceKeys[randomSelection]);
+  sendToUno(raceKeys[randomSelection]);
   lastRaceSpin = randomSelection;
 }
 
@@ -355,8 +357,10 @@ void spinnerRaceLoaded() {
   // If asian or white, show black
   if (raceSelection >= 3) {
     Keyboard.write(raceKeys[0]);
+    sendToUno(raceKeys[0]);
   } else { // show white
     Keyboard.write(raceKeys[4]);
+    sendToUno(raceKeys[4]);
   }
 }
 
@@ -367,5 +371,6 @@ void spinnerEducation() {
   }
 
   Keyboard.write(educationKeys[randomSelection]);
+  sendToUno(educationKeys[randomSelection]);
   lastEducationSpin = randomSelection;
 }
