@@ -333,7 +333,7 @@ void setSceneLighting() {
 
 void spinnerIncome() {
   int randomSelection = random(4);
-  while (randomSelection == incomeSelection || randomSelection == lastIncomeSpin) {
+  while (randomSelection == lastIncomeSpin) {
     randomSelection = random(4);
   }
 
@@ -366,7 +366,7 @@ void spinnerRaceLoaded() {
 
 void spinnerEducation() {
   int randomSelection = random(5);
-  while (randomSelection == educationSelection || randomSelection == lastEducationSpin) {
+  while (randomSelection == lastEducationSpin) {
     randomSelection = random(4);
   }
 
