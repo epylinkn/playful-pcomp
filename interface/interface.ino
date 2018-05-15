@@ -51,6 +51,7 @@ String sceneName = "Intro";
 String prevSceneName;
 
 int lastStartedAt;
+int searchingStartedAt;
 
 void setup() {
   Wire.begin();
@@ -83,7 +84,7 @@ void setup() {
 }
 
 void loop() {
-  //== Check scene change
+  //== Check scene change and set initial lighting
   if (Serial.available() > 0) {
     String incomingString = Serial.readString();
     Serial.println(incomingString);
@@ -92,13 +93,7 @@ void loop() {
     setSceneLighting();
   }
 
-  //== Check all our encoders
-  if (sceneName == "Profile") {
-    checkIncomeEncoder();
-    checkRaceEncoder();
-    checkEducationEncoder();
-  }
-
+  //== Complex lighting
   if (sceneName == "Intro") {
     int elapsedTime = millis() - lastStartedAt;
 
@@ -107,6 +102,19 @@ void loop() {
     } else {
       searchLedsLow();
     }
+  }
+
+  if (sceneName == "Searching") {
+    int elapsedTime = millis() - searchingStartedAt;
+    int progress = elapsedTime / 500 % 3;
+    searchLeds(progress);
+  }
+
+  //== Check all our encoders
+  if (sceneName == "Profile") {
+    checkIncomeEncoder();
+    checkRaceEncoder();
+    checkEducationEncoder();
   }
 
   // Always active
@@ -214,6 +222,22 @@ void checkSearch() {
   }
 }
 
+void searchLeds(int n) {
+  if (n == 0) {
+    digitalWrite(searchLedPin1, HIGH);
+    digitalWrite(searchLedPin2, LOW);
+    digitalWrite(searchLedPin3, LOW);
+  } else if (n == 1) {
+    digitalWrite(searchLedPin1, HIGH);
+    digitalWrite(searchLedPin2, HIGH);
+    digitalWrite(searchLedPin3, LOW);
+  } else {
+    digitalWrite(searchLedPin1, HIGH);
+    digitalWrite(searchLedPin2, HIGH);
+    digitalWrite(searchLedPin3, HIGH);
+  }
+}
+
 void searchLedsHigh() {
   digitalWrite(searchLedPin1, HIGH);
   digitalWrite(searchLedPin2, HIGH);
@@ -256,6 +280,7 @@ void setSceneLighting() {
   }
 
   if (sceneName == "Searching") {
+    searchingStartedAt = millis();
     searchLedsLow();
   }
 
