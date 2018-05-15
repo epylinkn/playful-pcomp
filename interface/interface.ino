@@ -17,12 +17,15 @@ char educationKeys[] = { 'Z', 'X', 'C', 'V', 'B' };
 
 long oldIncomePosition = 0;
 int incomeSelection = 0;
+int lastIncomeSpin = NULL;
 
 long oldRacePosition = 0;
 int raceSelection = 0;
+int lastRaceSpin = NULL;
 
 long oldEducationPosition = 0;
 int educationSelection = 0;
+int lastEducationSpin = NULL;
 
 Bounce resetButton = Bounce();
 Bounce randomButton = Bounce();
@@ -46,6 +49,7 @@ int resetButtonPin = 2;
 int resetLedPin = 3;
 
 int randomButtonPin = 14;
+bool firstSpin = true;
 
 String sceneName = "Intro";
 String prevSceneName;
@@ -262,10 +266,17 @@ void checkRandom() {
     Keyboard.write('P');
 
     // NB slot sound is 2.821224 sec
-    for (int x = 1; x < 14; x++) {
+    for (int x = 0; x < 14; x++) {
+      if (firstSpin && x == 13) {
+        firstSpin = false;
+        spinnerRaceLoaded();
+      } else {
+        spinnerRace();
+      }
+
       spinnerIncome();
-      spinnerRace();
       spinnerEducation();
+
       delay(200);
     }
   }
@@ -322,30 +333,39 @@ void setSceneLighting() {
 
 void spinnerIncome() {
   int randomSelection = random(4);
-  while (randomSelection == incomeSelection) {
+  while (randomSelection == incomeSelection || randomSelection == lastIncomeSpin) {
     randomSelection = random(4);
   }
 
-  incomeSelection = randomSelection;
-  Keyboard.write(incomeKeys[incomeSelection]);
+  Keyboard.write(incomeKeys[randomSelection]);
+  lastIncomeSpin = randomSelection;
 }
 
 void spinnerRace() {
   int randomSelection = random(5);
-  while (randomSelection == raceSelection) {
-    raceSelection = random(5);
+  while (randomSelection == raceSelection || randomSelection == lastRaceSpin) {
+    randomSelection = random(5);
   }
 
-  raceSelection = randomSelection;
-  Keyboard.write(raceKeys[raceSelection]);
+  Keyboard.write(raceKeys[randomSelection]);
+  lastRaceSpin = randomSelection;
+}
+
+void spinnerRaceLoaded() {
+  // If asian or white, show black
+  if (raceSelection >= 3) {
+    Keyboard.write(raceKeys[0]);
+  } else { // show white
+    Keyboard.write(raceKeys[4]);
+  }
 }
 
 void spinnerEducation() {
   int randomSelection = random(5);
-  while (randomSelection == educationSelection) {
-    educationSelection = random(4);
+  while (randomSelection == educationSelection || randomSelection == lastEducationSpin) {
+    randomSelection = random(4);
   }
 
-  educationSelection = randomSelection;
-  Keyboard.write(educationKeys[educationSelection]);
+  Keyboard.write(educationKeys[randomSelection]);
+  lastEducationSpin = randomSelection;
 }
