@@ -277,7 +277,7 @@ void checkRandom() {
       spinnerIncome();
       spinnerEducation();
 
-      delay(200);
+      delay(202);
     }
   }
 }
