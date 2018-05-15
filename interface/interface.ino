@@ -108,11 +108,11 @@ void loop() {
     }
   }
 
-  if (sceneName == "Searching") {
-    int elapsedTime = millis() - searchingStartedAt;
-    int progress = elapsedTime / 500 % 3;
-    searchLeds(progress);
-  }
+  // if (sceneName == "Searching") {
+  //   int elapsedTime = millis() - searchingStartedAt;
+  //   int progress = elapsedTime / 500 % 3;
+  //   searchLeds(progress);
+  // }
 
   //== Check all our encoders
   if (sceneName == "Profile") {
