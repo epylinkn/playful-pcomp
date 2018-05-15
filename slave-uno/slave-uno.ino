@@ -8,9 +8,9 @@ Adafruit_NeoPixel incomeStrip = Adafruit_NeoPixel(3, 5);
 Adafruit_NeoPixel raceStrip = Adafruit_NeoPixel(3, 4);
 Adafruit_NeoPixel educationStrip = Adafruit_NeoPixel(4, 3);
 
-int incomeOn = NULL;
-int raceOn = NULL;
-int educationOn = NULL;
+int incomeOn = -1;
+int raceOn = -1;
+int educationOn = -1;
 
 void setup() {
   Serial.begin(115200);
@@ -108,10 +108,10 @@ void receiveEvent(int bytes) {
     else if (receivedChar == 'B') {
       educationOn = 13;
     }
-    else if (receivedChar == 'M') {
-      incomeOn = NULL;
-      raceOn = NULL;
-      educationOn = NULL;
+    else if (receivedChar == 'I') {
+      incomeOn = -1;
+      raceOn = -1;
+      educationOn = -1;
     }
   }
 }

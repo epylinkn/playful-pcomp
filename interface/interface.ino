@@ -246,7 +246,7 @@ void setSceneLighting() {
   if (sceneName == prevSceneName) return;
 
   if (sceneName == "Intro") {
-    // allPixelsOn();
+    sendToUno('I'); // reset knob lights
     searchLedsHigh();
     digitalWrite(resetLedPin, LOW);
   }
