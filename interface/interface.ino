@@ -43,7 +43,7 @@ int searchButtonPin3 = A4;
 int searchLedPin3 = A3;
 
 long lastSearchDebounceTime = 0;
-long debounceDelay = 10;
+long debounceDelay = 50;
 
 int resetButtonPin = 2;
 int resetLedPin = 3;
@@ -76,11 +76,11 @@ void setup() {
   randomButton.attach(randomButtonPin);
   randomButton.interval(5);
   searchButton1.attach(searchButtonPin1);
-  searchButton1.interval(5);
+  searchButton1.interval(10);
   searchButton2.attach(searchButtonPin2);
-  searchButton2.interval(5);
+  searchButton2.interval(10);
   searchButton3.attach(searchButtonPin3);
-  searchButton3.interval(5);
+  searchButton3.interval(10);
 
   setSceneLighting();
 
@@ -219,12 +219,14 @@ void checkSearch() {
   searchButton2.update();
   searchButton3.update();
 
-  if (millis() - lastSearchDebounceTime < debounceDelay) {
+  long currentTime = millis();
+
+  if (currentTime - lastSearchDebounceTime < debounceDelay) {
     return;
   }
 
   if (searchButton1.fell() || searchButton2.fell() || searchButton3.fell()) {
-    lastSearchDebounceTime = millis();
+    lastSearchDebounceTime = currentTime;
 
     searchLedsHigh();
     Keyboard.write('O');
